@@ -3,9 +3,7 @@ from prizepickstransfer import fileGrabber, overUnderCalc, allowed_file
 from os.path import exists
 import os 
 
-app = Flask(__name__)
-app.secret_key = 'jacksdfs'
-app.config['SECRET_KEY'] = 'jacksdfs' 
+app = Flask(__name__) 
 
 @app.route('/')
 def home(): 
@@ -30,7 +28,7 @@ def downloadOU():
     if path:
         return send_file('OverUnderDiff.csv', as_attachment=True)
     else:
-        flash("CSV file doesn't exist. Upload your own file first.", category='error')
+        pass
         
     return redirect(url_for('home'))
 
@@ -44,7 +42,6 @@ def upload():
             newFile.to_csv('OverUnderDiff.csv', index=False)
             return render_template('prizepicks2.html', tables=[newFile.to_html(classes='data', header="true")])
         else:
-            flash("Please submit a CSV file that contains columns - [Name] and [fpts]", category='error')
             if path:
                 os.remove('OverUnderDiff.csv')
                 return redirect(url_for('home'))
