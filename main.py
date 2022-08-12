@@ -2,7 +2,6 @@ from flask import Flask, send_file, render_template, request, redirect, url_for
 from prizepickstransfer import fileGrabber, overUnderCalc, allowed_file
 from os.path import exists
 import os 
-import pandas as pd
 
 app = Flask(__name__) 
 '''
