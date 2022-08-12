@@ -57,7 +57,8 @@ def upload():
                 yes.to_csv('files/OverUnderDiff.csv', index=False)
                 os.remove('static/files/'+file.filename)
                 return render_template('prizepicks2.html', tables=[yes.to_html(classes='data', header="true")])
-            except:
+            except Exception as e:
+                print(e)
                 '''
                 flash("Please submit a CSV file that contains columns - [Name] and [fpts]", category='error')
                 '''
