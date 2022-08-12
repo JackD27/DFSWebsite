@@ -30,6 +30,12 @@ def download():
     filePP.to_csv('PrizePicksData.csv', index = False)
     path = "PrizePicksData.csv"
     return send_file(path, as_attachment=True)
+
+@app.route('/test')
+def download():
+    cwd = os.getcwd()  # Get the current working directory (cwd)
+    files = os.listdir(cwd)
+    return 'Current dir: '+cwd+'Files: '+files
     
 
 @app.route('/downloadOU')
