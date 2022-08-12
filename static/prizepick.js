@@ -31,7 +31,7 @@ function addText() {
     
     let text = document.getElementById('text').value;
     if (text.length > 1){
-        players.push(text);
+        players.push('  '+text);
     }
 
     var str = ""

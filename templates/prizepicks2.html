@@ -37,6 +37,7 @@
         {% for table in tables %}
             {{ table|safe }}
         {% endfor %}
+        <button id = "download-btn"onclick="window.location.href='{{url_for('downloadOU')}}'">Download .csv</button>
     </div>
     <script src="{{url_for('static', filename='prizepick.js')}}"></script>
 </body>
