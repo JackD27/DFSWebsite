@@ -8,7 +8,7 @@ app = Flask(__name__)
 app.secret_key = 'jacksdfs'
 app.config['SECRET_KEY'] = 'jacksdfs'
 '''
-UPLOAD_FOLDER = 'static/files'
+UPLOAD_FOLDER = 'static/files/'
 app.config['UPLOAD_FOLDER'] =  UPLOAD_FOLDER
 
 def editCSVfile(file):
@@ -56,7 +56,6 @@ def upload():
         path = exists("files/OverUnderDiff.csv")
         file = request.files['file']
         if file and allowed_file(file.filename):
-            app.logger.error(file.filename)
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
             file.save(file_path)
             try:   
