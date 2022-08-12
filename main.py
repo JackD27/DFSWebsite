@@ -7,9 +7,9 @@ app = Flask(__name__)
 
 @app.route('/')
 def home(): 
-    path = exists("OverUnderDiff.csv")
+    path = exists("files/OverUnderDiff.csv")
     if path:
-        os.remove('OverUnderDiff.csv')
+        os.remove('files/OverUnderDiff.csv')
         return render_template('prizepicks.html')
     else:
         return render_template('prizepicks.html')
@@ -24,9 +24,9 @@ def download():
 
 @app.route('/downloadOU')
 def downloadOU():
-    path = exists("OverUnderDiff.csv")
+    path = exists("files/OverUnderDiff.csv")
     if path:
-        return send_file('OverUnderDiff.csv', as_attachment=True)
+        return send_file('files/OverUnderDiff.csv', as_attachment=True)
     else:
         pass
         
@@ -35,17 +35,17 @@ def downloadOU():
 @app.route('/upload', methods = ['GET', 'POST'])
 def upload():
     if request.method == 'POST':
-        path = exists("OverUnderDiff.csv")
+        path = exists("files/OverUnderDiff.csv")
         file = request.files['file']
         if file and allowed_file(file.filename):
             newFile = overUnderCalc(file.filename)
-            '''
-            newFile.to_csv('OverUnderDiff.csv', index=False)
-            '''
+            
+            newFile.to_csv('files/OverUnderDiff.csv', index=False)
+            
             return render_template('prizepicks2.html', tables=[newFile.to_html(classes='data', header="true")])
         else:
             if path:
-                os.remove('OverUnderDiff.csv')
+                os.remove('files/OverUnderDiff.csv')
                 return redirect(url_for('home'))
             else:
                 return redirect(url_for('home'))
