@@ -39,7 +39,9 @@ def upload():
         file = request.files['file']
         if file and allowed_file(file.filename):
             newFile = overUnderCalc(file.filename)
+            '''
             newFile.to_csv('OverUnderDiff.csv', index=False)
+            '''
             return render_template('prizepicks2.html', tables=[newFile.to_html(classes='data', header="true")])
         else:
             if path:
@@ -57,5 +59,7 @@ def prizepicks():
 '''
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.debug = True
+    app.run()
+    
     
