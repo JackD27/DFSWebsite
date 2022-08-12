@@ -36,24 +36,27 @@ def downloadOU():
 
 @app.route('/upload', methods = ['GET', 'POST'])
 def upload():
-    if request.method == 'POST':
-        path = exists("files/OverUnderDiff.csv")
-        file = request.files['file']
-        if file and allowed_file(file.filename):
-            newFile = overUnderCalc(file.filename)
+    try:
+        if request.method == 'POST':
+            path = exists("files/OverUnderDiff.csv")
+            file = request.files['file']
+            if file and allowed_file(file.filename):
+                newFile = overUnderCalc(file.filename)
             
-            newFile.to_csv('files/OverUnderDiff.csv', index=False)
+                newFile.to_csv('files/OverUnderDiff.csv', index=False)
             
-            return render_template('prizepicks2.html', tables=[newFile.to_html(classes='data', header="true")])
-        else:
-            flash("Please submit a CSV file that contains columns - [Name] and [fpts]", category='error')
-            if path:
-                os.remove('files/OverUnderDiff.csv')
-                return redirect(url_for('home'))
+                return render_template('prizepicks2.html', tables=[newFile.to_html(classes='data', header="true")])
             else:
-                return redirect(url_for('home'))
+                flash("Please submit a CSV file that contains columns - [Name] and [fpts]", category='error')
+                if path:
+                    os.remove('files/OverUnderDiff.csv')
+                    return redirect(url_for('home'))
+                else:
+                    return redirect(url_for('home'))
     
-    return redirect(url_for('home'))
+        return redirect(url_for('home'))
+    except:
+        flash("Rename CSV to ppData.csv in the meantime. :)", category='error')
 
 '''
 @app.route('/prizepicks')
