@@ -4,6 +4,8 @@ from os.path import exists
 import os 
 
 app = Flask(__name__) 
+app.secret_key = 'jacksdfs'
+app.config['SECRET_KEY'] = 'jacksdfs'
 
 @app.route('/')
 def home(): 
@@ -28,7 +30,7 @@ def downloadOU():
     if path:
         return send_file('files/OverUnderDiff.csv', as_attachment=True)
     else:
-        pass
+        flash("CSV file doesn't exist. Upload your own file first.", category='error')
         
     return redirect(url_for('home'))
 
@@ -44,6 +46,7 @@ def upload():
             
             return render_template('prizepicks2.html', tables=[newFile.to_html(classes='data', header="true")])
         else:
+            flash("Please submit a CSV file that contains columns - [Name] and [fpts]", category='error')
             if path:
                 os.remove('files/OverUnderDiff.csv')
                 return redirect(url_for('home'))
