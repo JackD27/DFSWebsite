@@ -32,10 +32,11 @@ def download():
     return send_file(path, as_attachment=True)
 
 @app.route('/test')
-def download():
+def test():
     cwd = os.getcwd()  # Get the current working directory (cwd)
-    files = os.listdir(cwd)
-    return 'Current dir: '+cwd+'Files: '+files
+    files = str(os.listdir(cwd))
+    str1 = 'Current dir:' +cwd+' Files:' +files
+    return str1
     
 
 @app.route('/downloadOU')
