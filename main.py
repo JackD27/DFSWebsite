@@ -81,7 +81,7 @@ def upload():
                 return redirect(url_for('home'))
             else:
                 return redirect(url_for('home'))
-            
+    return 'Ok'
 '''
 @app.route('/prizepicks')
 def prizepicks():
