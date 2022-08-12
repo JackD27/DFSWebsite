@@ -5,8 +5,10 @@ import os
 import pandas as pd
 
 app = Flask(__name__) 
+'''
 app.secret_key = 'jacksdfs'
 app.config['SECRET_KEY'] = 'jacksdfs'
+'''
 UPLOAD_FOLDER = 'static/files'
 app.config['UPLOAD_FOLDER'] =  UPLOAD_FOLDER
 
