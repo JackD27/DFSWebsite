@@ -66,19 +66,22 @@ def getFPTcsv(csvFile):
     
     
 def overUnderCalc(dataFile):
-    file = fileGrabber()
-    pd.DataFrame(file)
+        try:
+                file = fileGrabber()
+                pd.DataFrame(file)
 
-    data = getFPTcsv(dataFile)
-    newDf = pd.DataFrame(data, columns=['Name', 'fpts'])
+                data = getFPTcsv(dataFile)
+                newDf = pd.DataFrame(data, columns=['Name', 'fpts'])
 
-    result = newDf.merge(file, how='inner')
-    result = result[result["Projection Type"].str.contains("Fantasy Score") == True]
-    difference = result["fpts"] - result["OverUnder"]
-    result['Difference'] = difference.round(decimals=2)
-    result = result[['Name', 'League','OverUnder', 'fpts', 'Difference']].sort_values(by='Difference', ascending=False)
+                result = newDf.merge(file, how='inner')
+                result = result[result["Projection Type"].str.contains("Fantasy Score") == True]
+                difference = result["fpts"] - result["OverUnder"]
+                result['Difference'] = difference.round(decimals=2)
+                result = result[['Name', 'League','OverUnder', 'fpts', 'Difference']].sort_values(by='Difference', ascending=False)
     
-    return result
+                return result
+        except:
+                return"Wrong file columns"
 
 ALLOWED_EXTENSIONS = set(['csv'])
 

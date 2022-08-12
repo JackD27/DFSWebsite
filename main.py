@@ -2,10 +2,17 @@ from flask import Flask, send_file, render_template, request, redirect, url_for,
 from prizepickstransfer import fileGrabber, overUnderCalc, allowed_file
 from os.path import exists
 import os 
+import pandas as pd
 
 app = Flask(__name__) 
 app.secret_key = 'jacksdfs'
 app.config['SECRET_KEY'] = 'jacksdfs'
+UPLOAD_FOLDER = 'static/files'
+app.config['UPLOAD_FOLDER'] =  UPLOAD_FOLDER
+
+def editCSVfile(file):
+    data = overUnderCalc('static/files/'+file)
+    return data
 
 @app.route('/')
 def home(): 
@@ -36,28 +43,32 @@ def downloadOU():
 
 @app.route('/upload', methods = ['GET', 'POST'])
 def upload():
-    try:
-        if request.method == 'POST':
-            path = exists("files/OverUnderDiff.csv")
-            file = request.files['file']
-            if file and allowed_file(file.filename):
-                newFile = overUnderCalc(file.filename)
-            
-                newFile.to_csv('files/OverUnderDiff.csv', index=False)
-            
-                return render_template('prizepicks2.html', tables=[newFile.to_html(classes='data', header="true")])
-            else:
+    if request.method == 'POST':
+        path = exists("files/OverUnderDiff.csv")
+        file = request.files['file']
+        if file and allowed_file(file.filename):
+            app.logger.error(file.filename)
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+            file.save(file_path)
+            try:   
+                yes = editCSVfile(file.filename)
+                yes.to_csv('files/OverUnderDiff.csv', index=False)
+                os.remove('static/files/'+file.filename)
+                return render_template('prizepicks2.html', tables=[yes.to_html(classes='data', header="true")])
+            except:
                 flash("Please submit a CSV file that contains columns - [Name] and [fpts]", category='error')
-                if path:
-                    os.remove('files/OverUnderDiff.csv')
-                    return redirect(url_for('home'))
-                else:
-                    return redirect(url_for('home'))
-    
-        return redirect(url_for('home'))
-    except:
-        flash("Rename CSV to ppData.csv in the meantime. :)", category='error')
-
+                dir = 'static/files'
+                for f in os.listdir(dir):
+                    os.remove(os.path.join(dir, f))
+                return redirect(url_for('home'))
+        else:
+            flash("Please submit a CSV file that contains columns - [Name] and [fpts]", category='error')
+            if path:
+                os.remove('files/OverUnderDiff.csv')
+                return redirect(url_for('home'))
+            else:
+                return redirect(url_for('home'))
+            
 '''
 @app.route('/prizepicks')
 def prizepicks():
