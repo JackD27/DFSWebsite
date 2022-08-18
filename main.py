@@ -1,4 +1,4 @@
-from flask import Flask, send_file, render_template, request, redirect, url_for, flash
+from flask import Flask, send_file, render_template, request, redirect, url_for
 from prizepickstransfer import fileGrabber, overUnderCalc, allowed_file
 from os.path import exists
 import os 
@@ -49,7 +49,6 @@ def downloadOU():
     if path:
         return send_file('files/OverUnderDiff.csv', as_attachment=True)
     else:
-        flash("CSV file doesn't exist. Upload your own file first.", category='error')
         return redirect(url_for('home'))
 
 @app.route('/upload', methods = ['GET', 'POST'])
@@ -65,11 +64,9 @@ def upload():
                 return render_template('prizepicks2.html', tables=[yes.to_html(classes='data', header="true")])
             except Exception as e:
                 print(e)
-                flash("Please submit a CSV file that contains columns - [Name] and [fpts]", category='error')
                 
                 return redirect(url_for('home'))
         else:
-            flash("Please submit a CSV file that contains columns - [Name] and [fpts]", category='error')
             if path:
                 os.remove('files/OverUnderDiff.csv')
                 return redirect(url_for('home'))
