@@ -2,7 +2,7 @@ import pandas as pd
 import json 
 from urllib.request import Request, urlopen
 
-def fileGrabber():
+def fileGrabber(sportName=None):
         req = Request('https://api.prizepicks.com/projections', headers={'User-Agent': 'Mozilla/5.0'})
         dataFile = json.loads(urlopen(req).read())
         names = []
@@ -58,23 +58,26 @@ def fileGrabber():
         finalFrame = finalFrame.sort_values(by=['League'])
         finalFrame = finalFrame[['LID', 'Projection Type', 'Stat Type', 'Name','OverUnder', 'League']]
         
+        if sportName == None:
+                return finalFrame
+        else:
+                finalFrame = finalFrame.loc[finalFrame['League'] == sportName]
+                return finalFrame
+        
         return finalFrame
 
     
 def overUnderCalc(dataFile):
-        try:
-                file = fileGrabber()
-                newDf = pd.DataFrame(dataFile, columns=['Name', 'fpts'])
+        file = fileGrabber()
+        newDf = pd.DataFrame(dataFile, columns=['Name', 'fpts'])
 
-                result = newDf.merge(file, how='inner')
-                result = result[result["Projection Type"].str.contains("Fantasy Score") == True]
-                difference = result["fpts"] - result["OverUnder"]
-                result['Difference'] = difference.round(decimals=2)
-                result = result[['Name', 'League','OverUnder', 'fpts', 'Difference']].sort_values(by='Difference', ascending=False)
-    
-                return result
-        except:
-                return"Wrong file columns"
+        result = newDf.merge(file, how='inner')
+        result = result[result["Projection Type"].str.contains("Fantasy Score") == True]
+        difference = result["fpts"] - result["OverUnder"]
+        result['Difference'] = difference.round(decimals=2)
+        result = result[['Name', 'League','OverUnder', 'fpts', 'Difference']].sort_values(by='Difference', ascending=False)
+        return result
+
 
 ALLOWED_EXTENSIONS = set(['csv'])
 

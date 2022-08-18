@@ -32,7 +32,12 @@
         <button>Upload CSV</button>
     </form>
     <div class="diff-container">
-        <button id = "prizepicks-btn"onclick="window.location.href='{{url_for('download')}}'">Download Prizepicks Data</button>
+        <form action="/download" method="POST" id="download-pp">
+            <div class="pp-container">
+                <input type="text" id="pp-text" name="pp-sport"placeholder="Enter sport">
+                <button id = "prizepicks-btn"onclick="window.location.href='{{url_for('download')}}'"name='pp-button'>Download Prizepicks Data</button>
+            </div>
+        </form>
         {% for table in tables %}
             {{ table|safe }}
         {% endfor %}

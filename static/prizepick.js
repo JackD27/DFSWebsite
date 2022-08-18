@@ -66,7 +66,6 @@ function addText() {
 
     }
 
-
 function deleteWord(){
     let text = document.getElementById('text').value;
     for (var i = 0; i < players.length; i++) {

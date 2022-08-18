@@ -29,6 +29,19 @@ a{
     padding-left: 1rem;
 }
 
+#pp-text{
+    margin: auto;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    width: 5rem;
+    height: 1.8rem;
+    border-radius: 8px;
+    border: 1px solid #afafaf;
+    padding-left: 1rem;
+    margin-bottom: .5rem;
+}
+
 li {
     padding-left: 16px;
     font-size: 18px;
@@ -66,18 +79,19 @@ li {
 
 
 .container-players{
-    justify-content: center;
     border: 1px solid #afafaf;
-    width: 10rem;
     padding-left: 16px;
+    padding-right: 16px;
+    display: inline-block;
     
 }
 
 .container-combos{
-    justify-content: center;
     border: 1px solid #afafaf;
-    width: 10rem;
     padding-left: 16px;
+    padding-right: 16px;
+    margin-left: 16px;
+    display: inline-block;
     
 }
 
@@ -109,7 +123,7 @@ li {
     width: 7rem;
     height: 3rem;
     border-radius: 8px;
-    position:flex;
+    position: flex;
     margin-right: 1%
   }
 
