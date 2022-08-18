@@ -2,6 +2,7 @@ from flask import Flask, send_file, render_template, request, redirect, url_for
 from prizepickstransfer import fileGrabber, overUnderCalc, allowed_file
 from os.path import exists
 import os 
+import pandas as pd
 
 app = Flask(__name__) 
 '''
@@ -10,10 +11,6 @@ app.config['SECRET_KEY'] = 'jacksdfs'
 '''
 UPLOAD_FOLDER = 'static/files/'
 app.config['UPLOAD_FOLDER'] =  UPLOAD_FOLDER
-
-def editCSVfile(file):
-    data = overUnderCalc('static/files/'+file)
-    return data
 
 @app.route('/')
 def home(): 
@@ -56,21 +53,17 @@ def upload():
         path = exists("files/OverUnderDiff.csv")
         file = request.files['file']
         if file and allowed_file(file.filename):
-            file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
-            file.save(file_path)
+            print(file)
             try:   
-                yes = editCSVfile(file.filename)
+                yes = pd.read_csv(file)
+                yes = overUnderCalc(yes)
                 yes.to_csv('files/OverUnderDiff.csv', index=False)
-                os.remove('static/files/'+file.filename)
                 return render_template('prizepicks2.html', tables=[yes.to_html(classes='data', header="true")])
             except Exception as e:
                 print(e)
                 '''
                 flash("Please submit a CSV file that contains columns - [Name] and [fpts]", category='error')
                 '''
-                dir = 'static/files'
-                for f in os.listdir(dir):
-                    os.remove(os.path.join(dir, f))
                 return redirect(url_for('home'))
         else:
             '''
@@ -90,6 +83,6 @@ def prizepicks():
 
 if __name__ == '__main__':
     app.debug = True
-    app.run(host="0.0.0.0", port=3000)
+    app.run()
     
     

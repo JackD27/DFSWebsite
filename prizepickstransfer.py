@@ -60,18 +60,11 @@ def fileGrabber():
         
         return finalFrame
 
-def getFPTcsv(csvFile):
-    df = pd.read_csv(csvFile, index_col=False)
-    return df
-    
     
 def overUnderCalc(dataFile):
         try:
                 file = fileGrabber()
-                pd.DataFrame(file)
-
-                data = getFPTcsv(dataFile)
-                newDf = pd.DataFrame(data, columns=['Name', 'fpts'])
+                newDf = pd.DataFrame(dataFile, columns=['Name', 'fpts'])
 
                 result = newDf.merge(file, how='inner')
                 result = result[result["Projection Type"].str.contains("Fantasy Score") == True]
