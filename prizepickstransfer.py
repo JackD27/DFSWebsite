@@ -76,6 +76,12 @@ def overUnderCalc(dataFile):
         difference = result["fpts"] - result["OverUnder"]
         result['Difference'] = difference.round(decimals=2)
         result = result[['Name', 'League','OverUnder', 'fpts', 'Difference']].sort_values(by='Difference', ascending=False)
+        result = result.loc[result['League'].str[-2:] != '1H']
+        result = result.loc[result['League'].str[-2:] != '2H']
+        result = result.loc[result['League'].str[-2:] != '3H']
+        result = result.loc[result['League'].str[-2:] != '4H']
+        
+        result = result.drop_duplicates()
         return result
 
 
