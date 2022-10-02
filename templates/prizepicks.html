@@ -11,7 +11,7 @@
     {% for mesg in get_flashed_messages() %}
       <h3 id='hide-me'>{{ mesg }}</h3>
       {% endfor %}
-    <h2>Everything Prizepicks!</h2>
+    <h2>Everything Prizepicks and Underdog!</h2>
     <input type="text" id="text" placeholder="Enter player">
     <div class="container">
         <button type="submit" onclick="addText()" class="btn">Submit</button>
@@ -34,8 +34,14 @@
     <div class="diff-container">
         <form action="/download" method="POST" id="download-pp">
             <div class="pp-container">
-                <input type="text" id="pp-text" name="pp-sport"placeholder="Enter sport">
+                <input type="text" id="pp-text" name="pp-sport"placeholder="Enter sport PP">
                 <button id = "prizepicks-btn"onclick="window.location.href='{{url_for('download')}}';"name='pp-button'>Download Prizepicks Data</button>
+            </div>
+        </form>
+            <form action="/download2" method="POST" id="download-ud">
+            <div class="ud-container">
+                <input type="text" id="ud-text" name="ud-sport"placeholder="Enter sport UD">
+                <button id = "underdog-btn"onclick="window.location.href='{{url_for('download2')}}';"name='ud-button'>Download Underdog Data</button>
             </div>
         </form>
         {% for table in tables %}

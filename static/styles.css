@@ -34,7 +34,19 @@ a{
     align-items: center;
     justify-content: center;
     display: flex;
-    width: 5rem;
+    width: 6rem;
+    height: 1.8rem;
+    border-radius: 8px;
+    border: 1px solid #afafaf;
+    padding-left: 1rem;
+    margin-bottom: .5rem;
+}
+#ud-text{
+    margin: auto;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    width: 6rem;
     height: 1.8rem;
     border-radius: 8px;
     border: 1px solid #afafaf;
@@ -63,10 +75,13 @@ li {
 
 .diff-container{
     display: flex;
-    align-items: center;
     justify-content: center;
     margin: auto;
     padding-top: 1rem;
+}
+
+.ud-container{
+    padding-left: .5rem;
 }
 
 .big-container{
@@ -110,10 +125,10 @@ li {
     border: 1px solid #afafaf; 
     cursor: pointer; 
     width: 7rem;
-    height: 2rem;
+    height: 3rem;
     border-radius: 8px;
     position:flex;
-    margin-left: 1%
+    margin-left: 1%;
   }
 
   #prizepicks-btn {
@@ -136,7 +151,22 @@ li {
     background-color: #30BD7C;
     opacity: 2;
   }
+  #underdog-btn {
+    background-color: #F5F5F5; 
+    border: 1px solid #afafaf; 
+    cursor: pointer; 
+    width: 7rem;
+    height: 3rem;
+    border-radius: 8px;
+    position: fixed;
+    margin-right: 1%;
+  }
 
+  #underdog-btn:hover {
+    background-color: #393939;
+    opacity: 2;
+    color:#E0B400;
+  }
 .btn:not(:last-child) {
     border-right: none; 
 }

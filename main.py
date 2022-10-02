@@ -1,5 +1,5 @@
 from flask import Flask, send_file, render_template, request, redirect, url_for
-from prizepickstransfer import fileGrabber, overUnderCalc, allowed_file
+from prizepickstransfer import fileGrabber, overUnderCalc, allowed_file, fileGrabber2
 from os.path import exists
 import os 
 import pandas as pd
@@ -34,6 +34,20 @@ def download():
         path = "PrizePicksData.csv"
         return send_file(path, as_attachment=True)
     return send_file(path, as_attachment=True)
+
+@app.route('/download2', methods = ['GET', 'POST'])
+def download2():
+    if request.method == 'POST':
+        sport = request.form.get("ud-sport")
+        if len(sport) < 1:
+            sport = None
+        else:
+            sport = sport.upper()
+        fileUD = fileGrabber2(sport)
+        fileUD.to_csv('UnderDogData.csv', index = False)
+        path2 = "UnderDogData.csv"
+        return send_file(path2, as_attachment=True)
+    return send_file(path2, as_attachment=True)
 
 @app.route('/test')
 def test():
